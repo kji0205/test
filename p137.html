@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<script>
+	function assert(value, desc) {
+		var div = document.createElement("div");
+		div.className = value ? "pass" : "fail";
+		div.appendChild(document.createTextNode(desc));
+		document.body.appendChild(div);
+	}
+
+	Function.prototype.memoized = function(key) {
+		// 함수의 반환값을 저장하는 캐시를 함수의 프로퍼티에 저장한다.
+		// 매번 만들지 않고, 캐시 객체가 없는 경우만 생성한다.
+		this._values = this._values || {};
+		// memoized() 함수를 호출할 때 키(key)가 전달된 경우,
+		// 해당 키에 대해 저장된 값이 있는지 확인한다.
+		// 저장된 값이 있다면 그 값을 반환한다.
+		// 저장된 값이 없는 경우에는 원래 함수를 호출하고 반환값을 다음에 쓸 수 있도록 저장해 둔다.
+		return this._values[key] !== undefined ?	this._values[key] : this._values[key] = this.apply(this, arguments);
+	};
+
+	// 테스트 삼아 소수를 계산
+	function isPrime(num) {
+		var prime = num != 1;
+		for (var i = 2; i < num; i++) {
+			if (num % i == 0) {
+				prime = false;
+				break;
+			};
+		};
+		return prime;
+	}
+
+	
+	assert(isPrime.memoized(5), "함수가 동작한다. 5는 소수다.");
+	assert(isPrime._values[5], "결과가 캐시로 저장되어 있다.");
+	console.log(isPrime._values[5]);
+</script>
+</body>
+</html>

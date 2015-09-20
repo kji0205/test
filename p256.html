@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	var add = new Function("a", "b", "return a + b;");
+	assert(add(3,4) === 7, "함수가 생성되었고 작동한다!");
+
+	(function() {
+		eval("window.test = 5;");
+	})();
+
+	assert(test === 5, "전역 유효 범위에 변수가 생성되었다.");
+
+	
+
+</script>
+</body>
+</html>

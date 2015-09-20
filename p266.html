@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	var json = '{"name":"Ninja"}';
+	var object = eval("(" + json + ")");
+	assert(object.name === "Ninja", "내 이름은 Ninja이다.");
+</script>
+</body>
+</html>

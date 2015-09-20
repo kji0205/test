@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	var katana = {
+		isSharp: true,
+		use: function() {
+			this.isSharp = !this.isSharp;
+		}
+	};
+
+	with (katana) {
+		isSharp = false;
+
+		assert(katana.isSharp === false, "프로퍼티에 값을 할당할 수 있다.");
+
+		cut = function() {
+			isSharp = false;
+		};
+
+		assert(typeof katana.cut == "function", "새로운 프로퍼티를 with문에 지정된 객체에 추가할 수 있다.");
+		assert(typeof window.cut == "function", "새로운 프로퍼티는 전역 유효 범위 내에 생성된다.");
+	}
+</script>
+</body>
+</html>

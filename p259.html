@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	
+	function globalEval(data) {
+
+		// 전역 평가 함수를 정의한다.
+		data = data.replace(/^\s*|\s*$/g, "");
+		log(data);
+		if (data) {
+			var head = document.getElementsByTagName("head")[0] || document.documentElement, script = document.createElement("script");
+
+			script.type = "text/javascript";
+			script.text = data;
+
+			head.appendChild(script);
+			// head.removeChild(script);
+		};
+	}
+
+	window.onload = function() {
+		(function() {
+			globalEval("val test = 5;");
+		})();
+
+		assert(test === 5, "코드는 전역 유효 범위에서 평가되었다.");
+	}
+
+
+</script>
+</body>
+</html>

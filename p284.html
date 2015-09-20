@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	
+	var ninja = { foo: "bar" },
+		value,
+		maxCount = 1000000,
+		n,
+		start,
+		elapsed;
+
+	start = new Date().getTime();
+	for (var n = 0; n < maxCount; n++) {
+		value = ninja.foo;
+	}
+	elapsed = new Date().getTime() - start;
+	assert(true, "with미사용: " + elapsed);
+
+	start = new Date().getTime();
+	with(ninja) {
+		for (var n = 0; n < maxCount; n++) {
+			value = foo;
+		};
+	}
+	elapsed = new Date().getTime() - start;
+	assert(true, "with (프로퍼티 접근이 있는 경우): " + elapsed);
+	start = new Date().getTime();
+	with(ninja) {
+		for (var n = 0; n < maxCount; n++) {
+			foo = n;
+		};
+	}
+	elapsed = new Date().getTime() - start;
+	assert(true, "with (프로퍼티에 값을 할당): " + elapsed);
+
+	start = new Date().getTime();
+	with (ninja) {
+		for (var n = 0; n < maxCount; n++) {
+			value = "no test";
+		};
+	}
+	elapsed = new Date().getTime() - start;
+	assert(true, "with (프로퍼티 접근은 없음): " + elapsed);
+
+</script>
+</body>
+</html>

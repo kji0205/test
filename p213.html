@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+
+<script>
+	
+	var html = "<div class='test'><b>Hello<b> <i>world!</i></div>";
+
+	// 지역 정규표현식을 이용해 일치하는 부분을 찾는다.
+	var results = html.match(/<(\/?)(\w+)([^>]*?)>/);
+
+	assert(results[0] == "<div class='test'>", "문자열 전체가 저장된다.");
+	assert(results[1] == "", "슬래시(/)는 저장되지 않느다.");
+	assert(results[2] == "div", "태그명이 저장된다.");
+	assert(results[3] == " class='test'", "속성(attributes)이 저장된다.");
+
+	// 전역 정규 표현식을 이용해 일치하는 부분을 찾는다.
+	var all = html.match(/<(\/?)(\w+)([^>]*?)>/g);
+
+	assert(all[0] == "<div class='test'", "여는 div태그가 저장된다.");
+	assert(all[1] == "<b>", "여는 b태그가 저장된다.");
+	assert(all[2] == "</b>", "닫는 b태그가 저장된다.");
+	assert(all[3] == "<i>", "여는 i태그가 저장된다.");
+	assert(all[4] == "</i>", "닫는 i태그가 저장된다.");
+	assert(all[5] == "</div>", "닫는 div태그가 저장된다.");
+
+
+	var html2 = "<div class='test'><b>Hello</b> <i>world</i></div>";
+	var tag = /<(\/?)(\w+)([^>]*?)>/g, match;
+	var num = 0;
+
+	// 반복해서 exec()을 호출한다.
+	while((match = tag.exec(html2)) !== null) {
+		assert(match.length == 4, "모든 매치는 태그를 하나 찾고, 캡처를 3개 포함한다.");
+		num++;
+	}
+
+	assert(num == 6, "여는 태그 3개와 닫는 태그 3개를 찾았다.");
+
+	var html3 = "<b class='hello'>Hello</b> <i>world</i>";
+	// 캐버에 대한 역참조를 사용한다.
+	var pattern = /<(\w+)([^>]*)>(.*?)<\/\1>/g;
+	// 테스트 대상 문자열에 대해 패턴의 exec() 메서드를 호출한다.
+	var match = pattern.exec(html3);
+	
+	assert(match[0] == "<b class='hello'>Hello</b>", "시작부터 끝까지, 전체 태그가 저장되어 있다.");
+	assert(match[1] == "i", "태그명이 일치한다.");
+	assert(match[2] == "", "태그 속성이 일치한다.");
+	assert(match[3] == "world", "태그의 내용이 일친한다.");
+
+	match = pattern.exec(html3);
+
+	assert(match[0] == "<i>world!</i>", "시작부터 끝까지, 전체 태그가 저장되어 있다.");
+	assert(match[1] == "i", "태그명이 일치한다.");
+	assert(match[2] == "", "태그 속성이 일치한다.");
+	assert(match[3] == "world!", "태그의 내용이 일치한다.");
+
+</script>
+</body>
+</html>

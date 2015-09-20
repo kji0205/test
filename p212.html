@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<script src="util.js"></script>
+
+<div id="opacity" style="opacity:0.5; filter:alpha(opacity=50);"></div>
+
+<script>
+	
+	function getOpacity(elem) {
+		var filter = elem.style.filter;
+		return filter ? 
+			filter.indexOf("opacity=") >= 0 ?
+				(parseFloat(filter.match(/opacity=([^)]+)/)[1]) / 100) + "" :
+				"" :
+				elem.style.opacity;
+	}
+
+	window.onload = function() {
+		assert(getOpacity(document.getElementById("opacity")) == "0.5", "엘리먼트의 불투명도를 찾았다.");
+	}
+</script>
+</body>
+</html>

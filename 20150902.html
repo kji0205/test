@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<script>
+
+	function addMethod(object, name, fn) {
+		var old = object[name];
+		object[name] = function() {
+			if (fn.length == arguments.length)
+				return fn.apply(this, arguments);
+			else if (typeof old == 'function')
+				return old.apply(this, arguments);
+		};
+	}
+
+	(function(){
+
+
+		
+		// 테스트 데이터를 지닌 테스트용 객체를 선언한다.
+		var ninjas = {
+			values: ["Dean Edwards", "Sam Stephenson", "Alex Ressell"]
+		};
+
+		// 인자를 받지 않는 메서드를 객체에 설정한다.
+		addMethod(ninjas, "find", function(){
+			return this.values;
+		});
+
+		// 인자를 하나만 받는 메서드를 객체에 설정한다.
+		addMethod(ninjas, "find", function(name){
+			var ret = [];
+			for (var i = 0; i < this.values.length-1; i++) {
+				if (this.values[i].indexOf(name) == 0) 
+					ret.push(this.values[i]);
+			};
+			return ret;
+		});
+
+		// 인자 2개를 받는메서드를 객체에 설정한다.
+		addMethod(ninjas, "find", function(first, last){
+			var ret = [];
+			for (var i = 0; i < this.values.length-1; i++) {
+				if (this.values[i] == (first + " " + last))
+					ret.push(this.values[i]);
+			};
+			return ret;
+		});
+
+		console.log(ninjas.find().length == 3);
+		console.log(ninjas.find("Sam").length == 1);
+		console.log(ninjas.find("Dean", "Edwards").length == 1);
+		//console.log(ninjas.find("Alex", "Ressell", "Jr").length == null);
+		console.assert(ninjas.find("Alex", "Ressell", "Jr").length == null, "Found Nothing");
+
+
+	})();
+</script>
+</body>
+</html>

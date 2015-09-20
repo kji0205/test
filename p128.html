@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<button id="test">Click me!</button>
+
+<script type="text/javascript">
+
+	// 바인딩 함수 정의
+	// 이 함수는 객체의 메서드에 대한 호출을 다른 함수로 감싼다.
+	function bind(context, name) {
+		return function () {
+			return context[name].apply(context, [arguments]);
+		}
+	}
+
+	// 버튼의 상태를 저장하기 위한 객체를 정의한다.
+	// 이 객체를 이용해서 버튼 클릭 여부를 확인한다.
+	var button = {
+		clicked: false,
+
+		click: function() {
+			// 클릭 처리를 위한 핸들러로 사용할 메서드를 정의한다.
+			// 객체의 메서드이기 때문에 객체의 참조를 얻기 위해 함수 내에서 this를 사용한다.
+			this.clicked = true;
+			console.log("button");
+			// 메서드 내에서, 클릭 후에 버튼의 상태가 올바르게 변경되었는지 확인한다.
+			console.log(button.clicked);
+			console.log(this);
+		}
+	};
+
+	// 버튼에 클릭 핸들러를 설정한다.
+	var elem = document.getElementById('test');
+	// elem.addEventListener('click', button.click, false);
+	elem.addEventListener('click', bind(button, "click"), false);
+
+</script>
+</body>
+</html>

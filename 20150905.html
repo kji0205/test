@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<script>
+	(function() {
+		var jQuery = window.jQuery = function() {
+			// 초기화
+			abc = function() {
+				alert(123);
+			}
+		};
+	})();
+
+	//jQuery.abc();
+
+	var jQuery = (function() {
+		function jQuery() {
+			
+		}
+		abc = function() {
+				alert(123);
+			}
+		return abc;
+	})();
+
+	jQuery();
+</script>
+</body>
+</html>

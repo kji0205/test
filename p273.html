@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+	function globalEval(data) {
+
+		// 전역 평가 함수를 정의한다.
+		data = data.replace(/^\s*|\s*$/g, "");
+		log(data);
+		if (data) {
+			var head = document.getElementsByTagName("head")[0] || document.documentElement, script = document.createElement("script");
+
+			script.type = "text/javascript";
+			script.text = data;
+
+			head.appendChild(script);
+			head.removeChild(script);
+		};
+	}
+
+	window.onload = function() {
+		var scripts = document.getElementsByTagName("script");
+		for (var i = 0; i < scripts.length; i++) {
+			if (scripts[i].type == "x/onload") {
+				globalEval(scripts[i].innerHTML);
+			};
+		};
+	}
+</script>
+
+<script type="x/onload">
+	assert(true, "페이지를 불렀을 때 실행된다.");
+</script>
+</body>
+</html>

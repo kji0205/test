@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<script src="util.js"></script>
+<script>
+	
+	var re1 = /test/i;
+
+	var re2 = new RegExp("test", "i");
+
+	assert(re1.toString() == "/test/i", "표현식의 내용을 검증한다.");
+	assert(re2.test("TesT"), "대소문자를 구분한다.");
+	assert(re1.test("TesT"), "이것도 마찬가지로 대소문자를 구분한다.");
+	assert(re1.test("test"), "이것도 마찬가지로 대소문자를 구분한다.");
+	assert(re1.toString() == re2.toString(), "두 정규 표현식이 동일하다.");
+	assert(re1 != re2, "하지만, 두 객체는 서로 다르다.");
+</script>
+
+
+<!-- 테스트 대상으로 사용될 다양한 클래스명을 지닌 엘리먼트를 여러 개 만든다. -->
+<div class="samurai ninja"></div>
+<div class="ninja samurai"></div>
+<div></div>
+<span class="samurai ninja ronin"></span>
+
+<script type="text/javascript">
+	function findClassInElements(className, type) {
+
+		// 타입을 이용해서 엘리먼트를 수집한다.
+		var elems = document.getElementsByTagName(type || "*");
+		// 전달된 클래스 명을 이용해서 정규 표현식을 컴파일한다.
+		var regex = new RegExp("(^|\\s)" + className + "(\\s|$)");
+		// 결과를 저장한다.
+		var results = [];
+
+		for (var i = 0, length = elems.length; i < length; i++) {
+			if (regex.test(elems[i].className)) {
+				results.push(elems[i]);
+			};
+			return results;
+		};
+	}
+
+	assert(findClassInElements("ninja", "div").length == 2, "의도한 수만큼 ninja라는 클래스 명을 지닌 div를 찾았다.");
+	assert(findClassInElements("ninja", "span").length == 1, "의도한 수만큼 ninja라는 클래스 명을 지닌 span을 찾았다.");
+	assert(findClassInElements("ninja", "div").length == 3, "의도한 수만큼 ninja라는 클래스 명을 지닌 엘리먼트를 찾았다.");
+</script>
+
+
+</body>
+</html>

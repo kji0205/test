@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<script type="text/javascript">
+	
+	Function.prototype.partial = function() {
+		var fn = this, args = Array.prototype.slice.call(arguments);
+		return function() {
+			var arg = 0;
+			for (var i = 0; i < args.length && arg < arguments.length; i++) {
+				if (args[i] === undefined) {
+					args[i] = arguments[arg++];
+				};
+			};
+			return fn.apply(this, args);
+		};
+	};
+
+	// String에 새로운 함수를 추가한다.
+	String.prototype.csv = String.prototype.split.partial(/,\s*/);
+
+	// 커링된 함수를 호출한다.
+	var results = ("Mugan, Jin, Fuu").csv();
+
+	console.log(results[0] == "Mugan");
+	console.log(results[1] == "Jin");
+	console.log(results[2] == "Fuu");
+	console.log('The text values were split properly');
+
+	var delay = setTimeout.partial(undefined, 10);
+
+	delay(function() {
+		console.log("This function execute after 10 seconds");
+	})
+</script>
+</body>
+</html>

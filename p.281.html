@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	var use = "other";
+
+	var katana = {
+		isSharp: true,
+		use: function() {
+			this.isSharp = !this.isSharp;
+		}
+	};
+
+	with(katana) {
+		assert(use !== "other" && typeof use == "function", "use는 katana의 함수이다.");
+		assert(this !== katana, "콘텍스트는 변경되지 않고 원래값을 유지한다.");
+	}
+
+	assert(use === "other", "with문 바깥에 있는 use는 영행을 받지 않는다.");
+	assert(typeof isSharp === "undefined", "with문 바깥에서는 with문 내에서 사용했던 프로퍼티가 존재하지 않는다.");
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="util.js"></script>
+</head>
+<body>
+<script>
+	function argumentNames(fn) {
+		// 인자 목록을 찾는다.
+		var found = /^[\s\(]*function[^(]*\(\s*([^)]*?)\s*\)/
+			.exec(fn.toString());
+		return found && found[1] ? found[1].split(/,\s*/) : [];
+	}
+
+	assert(argumentNames(function(){}).length === 0, "인자가 없는 함수에 대해서 잘 작동한다.");
+	assert(argumentNames(function(x){})[0].length === 0, "인자가 없는 함수에 대해서 잘 작동한다.");
+	var results = argumentNames(function(a,b,c,d,e){});
+	assert(results[0] == 'a' &&
+		results[1] == 'b' &&
+		results[2] == 'c' &&
+		results[3] == 'd' &&
+		results[4] == 'e',
+		"여러 인자를 가진 함수에 대해서도 잘 작동한다!"
+	);
+</script>
+</body>
+</html>

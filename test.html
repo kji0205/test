@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+		// unsigned int 8(1 bytes)
+
+		var buffer = new ArrayBuffer(20);
+		var uint8View = new Uint8Array(buffer);
+
+		// 0 ~ 255(unsigned int 8(1 bytes) 로 표현 가능한 수)
+		uint8View[0] = 0;
+		uint8View[1] = 255;
+
+		console.log(uint8View); // [0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+		// signed int 8(1 bytes)
+
+		var buffer = new ArrayBuffer(20);
+		var int8View = new Int8Array(buffer);
+
+		// -127 ~ 128(signed int 8(1 bytes) 로 표현 가능한 수)
+
+		// signed 의 경우 부호(양수/음수)를 나타내기 위해 총 8bit 중 1 비트(0: 양수, 1: 음수) 사용하기 때문에, 나머지 7bit(-127 ~ 128(표현 가능한 수))를 통해 숫자를 표현하게 된다.
+
+		int8View[0] = -128;
+		int8View[1] = 127;
+
+		console.log(int8View); // [-128, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+		// unsigned int 16(2 bytes)
+		var buffer = new ArrayBuffer(20);
+		var uint16View = new Uint16Array(buffer);
+
+		// 0 ~ 65535(unsigned int 16(2 bytes) 로 표현 가능한 수)
+		uint16View[0] = 65535;
+
+		console.log(uint16View); // [65535, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Closure</title>
+</head>
+<body>
+<ul id="results"></ul>
+	<script>
+	function assert(value, desc){
+		var li = document.createElement("li");
+		li.className = value ? "pass" : "fail";
+		li.appendChild(document.createTextNode(desc));
+		document.getElementById("results").appendChild(li);
+	}
+
+	var outerValue = 'ninja';
+
+	var later;
+
+	function outerFunction() {
+		var innerValue = 'samurai';
+
+		function innerFunction(paramValue) {
+			console.assert(outerValue, "Inner can see the ninja.");
+			console.assert(innerValue, "Inner can see the samurai.");
+			console.assert(paramValue, "Inner can see the wakizashi.");
+			console.assert(tooLate, "I can see the ronin.");
+		}
+
+		later = innerFunction;
+	}
+
+	console.assert(!tooLate, "Outer can't see the ronin");
+
+	var tooLate = 'ronin';
+
+
+	outerFunction();
+
+	later('wakizashi');
+	</script>
+
+</body>
+</html>
