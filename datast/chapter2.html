@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+<script>
+	function factorial(number){
+		var product=1;
+		for (var i = number; i >=1; --i) {
+			product*=i;
+		};
+		return product;
+	}
+	console.log(factorial(4));
+	console.log(factorial(5));
+	console.log(factorial(10));
+
+	console.log('p29++++++++++++++');
+
+	function curve(arr,amount){
+		for (var i = 0; i < arr.length; ++i) {
+			arr[i]+=amount;
+		};
+	}
+	var grades=[77,73,74,81,90];
+	curve(grades,5);
+	console.log(grades);
+
+	console.log('p32++++++++++++++');
+
+	function factorial2(number){
+		if (number==1) {return number;}
+		else{return number*factorial2(number-1)};
+	}
+	console.log(factorial2(5));
+
+	console.log('p33++++++++++++++');
+	function Checking(amount){
+		this.balance=amount;
+		this.deposit=deposit;
+		this.withdraw=withdraw;
+		this.toString=toString;
+	}
+
+	function deposit(amount){
+		this.balance+=amount;
+	}
+	function withdraw(amount){
+		if (amount<=this.balance) {this.balance-=amount};
+		if (amount>this.balance) {console.log("Insufficient funds")};
+	}
+	function toString(){
+		return "Balance: "+this.balance;
+	}
+
+	var account=new Checking(500);
+	account.deposit(1000);
+	console.log(account.toString());
+	account.withdraw(750);
+	console.log(account.toString());
+	account.withdraw(800);
+	console.log(account.toString());
+
+	console.log('p41++++++++++++++');
+	var nums=[];
+	for (var i = 0; i < 100; i++) {
+		nums[i]=i+1;
+	}
+	var samenums=nums;
+	nums[0]=400;
+	console.log(samenums[0]);
+
+	console.log('p48++++++++++++++');
+	var nums=[1,2,3,7,8,9];
+	var newElements=[4,5,6];
+	nums.splice(3,0,4,5,6);
+	console.log(nums);
+
+	console.log('p49++++++++++++++');
+	var nums=[1,2,3,4,5];
+	nums.reverse();
+	console.log(nums);
+	var names=['David','Mike','Cynthia','Clayton','Bryan','Raymond'];
+	names.sort();
+	console.log(names);
+
+	console.log('p50++++++++++++++');
+	function compare(num1,num2){
+		return num1-num2;
+	}
+	var nums=[3,1,2,100,4,200];
+	nums.sort(compare);
+	console.log(nums);
+
+	console.log('p50 반복자함수 forEach()++++++++++++++');
+	function square(num){
+		console.log(num,num*num);
+	}
+	var nums=[1,2,3,4,5,6,7,8,9,10];
+	nums.forEach(square);
+
+	console.log('p50 반복자함수 every()++++++++++++++');
+	function isEven(num){
+		return num%2==0;
+	}
+	var nums=[2,4,6,8,10];
+	var even=nums.every(isEven);
+	if (even) {
+		console.log('all numbers are even');
+	}else{console.log('not all numbers are even');}
+
+	console.log('p52 some()++++++++++++++');
+	//배열 요소중에 한 요소라도 인자로 받은 불린 요소의 기준을 만족하면 true를 반환한다.
+	function isEven(num){
+		return num%2==0;
+	}
+	var nums=[1,2,3,4,5,6,7,8,9,10];
+	var someEven=nums.some(isEven);
+	if (someEven) {
+		log('some numbers are even');
+	}else{
+		log('no numbers are even');
+	}
+	nums=[1,3,5,7,9];
+	someEven=nums.some(isEven);
+	if (someEven) {
+		log('some numbers are even');
+	}else{
+		log('no numbers are even');
+	}
+
+	console.log('p53 reduce()++++++++++++++');
+	//누적자 함수를 인자로 받은 다음 배열의 모든 요소를 누적자 함수에 적용한다.
+	//reduce()함수를 이용해 배열에 있는 모든 요소의 합계를 구하는 예제
+	function add(runningTotal,currentValue){
+		return runningTotal+currentValue;
+	}
+	var nums=[1,2,3,4,5,6,7,8,9];
+	var sum=nums.reduce(add);
+	console.log(sum);
+
+	log('p54 새 배열을 반환하는 반복자 함수++++++++++++++');
+	function curve(grade){return grade+=5;}
+	var grades=[77,65,81,92,83];
+	var newgrades=grades.map(curve);
+	log(newgrades);
+	function first(word){
+		return word[0];
+	}
+	var words=['for','your','information'];
+	var acronym=words.map(first);
+	log(acronym.join(''));
+
+	log('filter() 함수는 불린함수를 만족하는 요소를 포함하는 새로운 배열을 반환');
+	function isEven(num){
+		return num%2==0;
+	}
+	function isOdd(num){return num%2!=0;}
+	var nums=[];
+	for (var i = 0; i < 20; i++) {
+		nums[i]=i+1;
+	};
+	var evens=nums.filter(isEven);
+	log('Even numbers: ');
+	log(evens);
+	var odds=nums.filter(isOdd);
+	log('Odd numbers');
+	log(odds);
+
+	function passing(num){return num>=60;}
+	var grades=[];
+	for (var i = 0; i < 20; i++) {
+		grades[i]=Math.floor(Math.random()*101);
+	}
+	var passGrades=grades.filter(passing);
+	log('All grades');
+	log(grades);
+	log('Passing grades: ');
+	log(passGrades);
+
+	function afterc(str){
+		if (str.indexOf('cie')>-1) {return true;}
+		return false;
+	}
+	var words=['recieve','deceive','percieve','deceit','concieve'];
+	var misspelled=words.filter(afterc);
+	log(misspelled);
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>elevator</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		*{text-align: center;}
+	</style>
+</head>
+
+<body>
+<div>
+	<div>
+		<table border='1' style='width:500px; height:300px'>
+			<tr>
+				<td colspan="3"></td>
+			</tr>
+			<tr>
+				<td>e1</td>
+				<td>e2</td>
+				<td>e3</td>
+			</tr>
+			<tr>
+				<td id='v1'>1</td>
+				<td id='v2'>1</td>
+				<td id='v2'>1</td>
+			</tr>
+			
+			<tr>
+				<td id='h1'></td>
+				<td id='h2'></td>
+				<td id='h3'></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" value="UP" onclick="e1_click(1)">
+					<input type="button" value="DOWN" onclick="e1_click(2)">
+				</td>
+				<td>
+					<input type="button" value="UP">
+					<input type="button" value="DOWN">
+				</td>
+				<td>
+					<input type="button" value="UP">
+					<input type="button" value="DOWN">
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script>
+
+
+	var floors=1,floors2=4,floorsMax=10,floorsMin=1, flow='',flowUp='UP',flowDown='DOWN';
+	flow = flowUp;
+
+	var eApp = {
+
+	};
+
+	
+	var fnCycle = function() {
+		if (floors < floorsMax && flow == flowUp) {
+			floors++;
+		} else if (floors > floorsMin) {
+			flow = flowDown;
+			floors--;
+		}else if (floors===1) {
+			floors++;
+			flow = flowUp;
+		};
+		
+		console.log(floors);
+		document.getElementById('v1').innerHTML = floors;
+		document.getElementById('h1').innerHTML = flow;
+	}
+
+	var fnCycle2 = function() {
+		if (floors2 < floorsMax && flow == flowUp) {
+			floors2++;
+		} else if (floors2 > floorsMin) {
+			flow = flowDown;
+			floors2--;
+		}else if (floors2===1) {
+			floors2++;
+			flow = flowUp;
+			
+		};
+		
+		console.log(floors2);
+		document.getElementById('v2').innerHTML = floors2;
+		document.getElementById('h2').innerHTML = flow;
+	}	
+
+	var e1_click=function(p){
+		clearInterval(cycle);
+	}
+
+	var cycle = setInterval(fnCycle, 1000);
+	var cycle2 = setInterval(fnCycle2, 1000);
+</script>
+</body>
+</html>

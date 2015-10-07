@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+<script>
+	
+	var twod=[];
+	var rows=5;
+	for (var i = 0; i < rows; i++) {
+		twod[i]=[];
+	};
+	log(twod);
+
+	Array.matrix=function(numrows,numcols,initial){
+		var arr=[];
+		for (var i = 0; i < numrows; i++) {
+			var columns=[];
+			for (var j = 0; j < numcols; j++) {
+				columns[j]=initial;
+			}
+			arr[i]=columns;
+		}
+		return arr;
+	}
+	var nums=Array.matrix(5,5,0);
+	log(nums[1][1]);
+	var names=Array.matrix(3,3,'');
+	names[1][2]='Joe';
+	log(names[1][2]);
+
+	log('p58 2.6.2 이차원 배열 요소 처리하기');
+	var grades=[[89,77,78],[76,82,81],[91,94,89]];
+	var total=0;
+	var average=0.0;
+	for (var row = 0; row < grades.length; ++row) {
+		for (var col = 0; col < grades[row].length; ++col) {
+			total+=grades[row][col];
+		}
+		average=total/grades[row].length;
+		log('Student '+parseInt(row+1)+' average: '+average.toFixed(2));	// toFixed(n) 소수점 n자리수로 반올림
+		total=0;
+		average=0.0;
+	};
+
+	log('2.7 객체를 요소로 포함하는 배열');
+	function Point(x,y){
+		this.x=x;
+		this.y=y;
+	}
+	function displayPts(arr){
+		for (var i = 0; i < arr.length; i++) {
+			log(arr[i].x+', '+arr[i].y);
+		};
+	}
+	var p1=new Point(1,2);
+	var p2=new Point(3,5);
+	var p3=new Point(2,8);
+	var p4=new Point(4,4);
+	var points=[p1,p2,p3,p4];
+	for (var i = 0; i < points.length; i++) {
+		log('Point '+parseInt(i+1)+': '+points[i].x+', '+points[i].y);
+	};
+	var p5=new Point(12,-3);
+	points.push(p5);
+	log('After push: ');
+	displayPts(points);
+	points.shift();
+	log('After shift: ');
+	displayPts(points);
+
+	log('2.8 객체에 포함된 배열');
+	(function(){
+		function weekTemps(){
+			this.dataStore=[];
+			this.add=add;
+			this.average=average;
+		}
+		function add(temp){this.dataStore.push(temp);}
+		function average(){
+			var total=0;
+			for (var i = 0; i < this.dataStore.length; i++) {
+				total+=this.dataStore[i];
+			}
+			return total/this.dataStore.length;
+		}
+		var thisWeek=new weekTemps();
+		thisWeek.add(52);
+		thisWeek.add(55);
+		thisWeek.add(61);
+		thisWeek.add(65);
+		thisWeek.add(55);
+		thisWeek.add(50);
+		thisWeek.add(52);
+		thisWeek.add(49);
+		log(thisWeek.average());
+	})();
+
+	(function(){
+		// 객체에 학생들의 점수 집합을 저장하는 grades객체 생성
+		//점수를 추가하는 함수
+		//학생의 평균점수를 출력하는 기능을 객체 추가
+		var grades=function(){
+			this.dataStore=[];
+			this.add=function(score){
+				this.dataStore.push(score);
+			};
+			this.average=function(){
+				var total=0.0;
+				for (var i = 0; i < this.dataStore.length; i++) {
+					total+=this.dataStore[i];
+				};
+				log('average: '+(total/this.dataStore.length).toFixed(2).toString());
+			}
+		}
+		var wScore=new grades();
+		wScore.add(50);
+		wScore.add(60);
+		wScore.add(70);
+		wScore.average();
+	})();
+</script>
+</body>
+</html>

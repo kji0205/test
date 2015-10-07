@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://raw.githubusercontent.com/kji0205/util.js/master/util.js"></script>
+
+</head>
+<body>
+
+<input type="button" value="CCC" id="view" class="name">
+
+<script>
+	
+	var Controller = {};
+
+	var p33 = function() {
+
+		// 익명 함수로 범위를 캡슐화한다.
+		(Controller.users = function($) {
+			var nameClick = function() {
+				alert(1);
+			};
+
+			// 페이지를 로드할 때 이벤트 리스너를 추가한다.
+			$(function() {
+				$('#view .name').click(nameClick);
+			});
+
+		})(jQuery);
+
+		var Person = function(name) {
+			this.name = name;
+		}
+
+		var alice = new Person('송혜교');
+		log(alice instanceof Person);
+
+		var Class = function() {
+			var klass = function() {
+				this.init.apply(this, arguments);
+			};
+			klass.prototype.init = function() {};
+			return klass;
+		};
+
+		var Person = new Class;
+
+		Person.prototype.init = function() {
+			alert('Person을 인스턴스화할 때 호출');
+		}
+
+		var person = new Person;
+	}
+
+
+	var Class = function() {
+		var klass = function() {
+			this.init.apply(this, arguments);
+		};
+
+		klass.prototype.init = function() {};
+
+		// 프로토타입의 다축형
+		klass.fn = klass.prototype;
+
+		// 클래스의 단축형
+		klass.fn.parent = klass;
+
+		// 클래스 프로퍼티 추가
+		klass.extend = function(obj) {
+			var extended = obj.extended;
+			for (var i in obj) {
+				klass[i] = obj[i];
+			}
+			if (extended) extended(klass)
+		};
+
+		// 인스턴스 프로퍼티 추가
+		klass.include = function(obj) {
+			var included = obj.included;
+			for (var i in obj) {
+				klass.fn[i] = obj[i];
+			}
+			if (included) included(klass)
+		};
+
+		return klass;
+	}
+
+	var Person = new Class;
+
+	Person.extend({
+		find: function(id) {
+			// alert('find(1)');
+		},
+		exists: function(id) {}
+	});
+
+	var person = Person.find(1);
+
+	Person.extend({
+		extended: function(klass) {
+			console.log(klass, '가 확정됐다!');
+		}
+	});
+
+	var ORMModule = {
+		save: function() {
+			log('공유함수');
+		}
+	};
+
+	var Person = new Class;
+	var Asset = new Class;
+
+	Person.include(ORMModule);
+	Asset.include(ORMModule);
+
+	log(Person.prototype);
+	log(Asset.prototype);
+
+	var Animal = function() {};
+
+	Animal.prototype.breath = function() {
+		console.log('breath');
+	};
+
+	var Dog = function() {};
+
+	// Dog는 Animal을 상속한다.
+	Dog.prototype = new Animal;
+
+	Dog.prototype.wag = function() {
+		console.log('wag tail');
+	};
+
+	var dog = new Dog;
+	dog.wag();
+	dog.breath();	// 상속받은 프로퍼티
+
+	var Class = function(parent) {
+		var klass = function() {
+			this.init.apply(this, arguments);
+		};
+
+		// klass의 프로토타입을 바꾼다
+		if (parent) {
+			var subclass = function() {};
+			subclass.prototype = parent.prototype;
+			klass.prototype = new subclass;
+		};
+
+		klass.prototype.init = function() {};
+
+		// 단축형
+		klass.fn = klass.prototype;
+		klass.fn.parent = klass;
+		klass._super = klass.__proto__;
+
+		/* include/extend 코드 ... */
+
+		return klass;
+	}
+
+	var Animal = new Class;
+
+	// Animal.include({
+	// 	breath: function() {
+	// 		console.log('breath');
+	// 	}
+	// });
+
+	var Cat = new Class(Animal);
+
+	// 사용법
+	var tommy = new Cat();
+	// tommy.breath();
+
+	var clicky = {
+		wasClicked: function() {
+
+		},
+
+		addListeners: function() {
+			var self = this;
+			$('.clicky').click(function() {
+				self.wasClicked();
+			});
+		}
+	};
+
+	clicky.addListeners();
+
+
+	var proxy = function(func, thisObject) {
+		return(function() {
+			return func.apply(thisObject, arguments);
+		});
+	};
+
+	var clicky = {
+		wasClicked: function() {
+			log('wasClicked');
+		},
+		addListeners: function() {
+			var self = this;
+			$('.clicky').click(proxy(this.wasClicked, this));
+		}
+	};
+
+
+	var App = {
+		log: function() {
+			if (typeof console == 'undefined') return;
+
+			// 인자를 적절한 배열로 바꾼다.
+			var args = jQuery.makeArray(arguments);
+
+			// 새 인자를 추가한다.
+			args.unshift('App');
+
+			// console에 위임한다.
+			console.log.apply(console, args);
+		}
+	};
+
+	App.log('testtest');
+</script>
+
+
+</body>
+</html>
